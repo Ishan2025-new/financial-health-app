@@ -237,7 +237,7 @@ def create_client_pdf(data, income_chart_path=None, expense_chart_path=None):
 
     pdf.cell(200, 8, txt=f"Consent to Share Financial Information: {data.get('consent_to_share', '')}", ln=True)
 
-    filename = f"{data.get('full_name', 'client').replace(' ', '_')}_summary.pdf"
+    filename = os.path.join(STATIC_FOLDER, f"{data.get('full_name', 'client').replace(' ', '_')}_summary.pdf")
     pdf.output(filename)
     return filename
 
@@ -445,7 +445,12 @@ def submit():
         pdf_filename = create_client_pdf(client_data, income_chart_path=chart_path, expense_chart_path=expense_chart_path)
         log_pdf_activity(pdf_filename, "Generated")
 
-        return send_file(pdf_filename, as_attachment=True)
+        if chart_path and os.path.exists(chart_path):
+            os.remove(chart_path)
+        if expense_chart_path and os.path.exists(expense_chart_path):
+            os.remove(expense_chart_path)
+
+        return send_file(pdf_filename, as_attachment=True, download_name=os.path.basename(pdf_filename))
 
     return render_template("submit.html")
 
