@@ -143,7 +143,7 @@ def create_client_pdf(data, income_chart_path=None, expense_chart_path=None):
     pdf.image("static/Signature.png", x=140, y=220, w=50)
     pdf.set_xy(140, 265)
     pdf.set_font("Arial", size=10)
-    pdf.cell(50, 5, txt="Ranjit Chowdhury", ln=True, align='C')
+    pdf.cell(50, 5, txt="Rudrashis Chowdhury", ln=True, align='C')
     pdf.cell(50, 5, txt="Founder, Rudra Solutions", ln=True, align='C')
 
     # Summary Page
@@ -238,7 +238,7 @@ def create_client_pdf(data, income_chart_path=None, expense_chart_path=None):
 
     pdf.cell(200, 8, txt=f"Consent to Share Financial Information: {data.get('consent_to_share', '')}", ln=True)
 
-    filename = os.path.join(STATIC_FOLDER, f"{data.get('full_name', 'client').replace(' ', '_')}_summary.pdf")
+    filename = os.path.join(DATA_FOLDER, f"{data.get('full_name', 'client').replace(' ', '_')}_summary.pdf")
     pdf.output(filename)
     return filename
 
